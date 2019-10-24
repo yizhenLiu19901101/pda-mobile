@@ -1,94 +1,55 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+       <form class="form-signin">
+      <input type="userName" id="inputUserName"  class="form-control" v-model="userName" placeholder="用户名" required autofocus>
+      <input type="password" id="inputPassword" v-model="userPassword"  class="form-control" placeholder="密码" required>
+      <!--暂时不需要注册登陆以及记住我-->
+      <!--
+      <div class="checkbox mb-3">
+        <label class="left">
+          <input type="checkbox" value="remember-me"> 记住我
+        </label>
+        <label class="right">
+          <a href="#" class="nav-link">注册/忘记密码</a>
+        </label>
+      </div>
+      -->
+      <button class="btn btn-lg btn-primary btn-block" type="submit" v-on:click="login(userName,userPassword)">登录</button>
+    </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      userName: '',
+      userPassword: ''
+    }
+  },
+  methods: {
+    login (userName, userPassword) {
+      axios.create({
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+        }
+      })
+      let user = {
+        userName: userName,
+        password: userPassword
+      }
+      axios.post('/api/user/login', user).then(function (response) {
+        console.log('登陆成功')
+        this.$router.push({name: 'Login'})
+      }.bind(this))
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }
