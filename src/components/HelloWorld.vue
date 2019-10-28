@@ -14,7 +14,7 @@
         </label>
       </div>
       -->
-      <button class="btn btn-lg btn-primary btn-block" type="submit" v-on:click="login(userName,userPassword)">登录</button>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" v-on:click.prevent="login(userName,userPassword)">登录</button>
     </form>
   </div>
 </template>
@@ -44,8 +44,14 @@ export default {
         password: userPassword
       }
       axios.post('/api/user/login', user).then(function (response) {
-        console.log('登陆成功')
-        this.$router.push({name: 'Login'})
+        //eslint-disable-line
+        if (response.data.code == 200) {
+          console.log('登陆成功')
+          this.$router.push({name: 'Login'})
+        } else {
+          alert(response.data.msg)
+          console.log(response.data.msg)
+        }
       }.bind(this))
         .catch(function (error) {
           console.log(error)
