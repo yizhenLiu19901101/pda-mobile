@@ -51,7 +51,7 @@ export default {
           console.log('登陆成功')
           this.$router.push({name: 'Login'})
         } else {
-          alert(response.data.msg)
+          this.$message.error(response.data.msg)
           console.log(response.data.msg)
         }
       }.bind(this))
