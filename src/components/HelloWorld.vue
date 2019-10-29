@@ -1,6 +1,7 @@
 <template>
-  <div class="hello">
-       <form class="form-signin">
+  <div>
+    <form class="form-signin">
+      <img class="mb-4" src="../assets/dog.jpg" alt="登录" width="300" height="200">
       <input type="userName" id="inputUserName"  class="form-control" v-model="userName" placeholder="用户名" required autofocus>
       <input type="password" id="inputPassword" v-model="userPassword"  class="form-control" placeholder="密码" required>
       <!--暂时不需要注册登陆以及记住我-->
@@ -14,6 +15,7 @@
         </label>
       </div>
       -->
+      <br>
       <button class="btn btn-lg btn-primary btn-block" type="submit" v-on:click.prevent="login(userName,userPassword)">登录</button>
     </form>
   </div>
@@ -44,7 +46,7 @@ export default {
         password: userPassword
       }
       axios.post('/api/user/login', user).then(function (response) {
-        //eslint-disable-line
+        // eslint-disable-next-line
         if (response.data.code == 200) {
           console.log('登陆成功')
           this.$router.push({name: 'Login'})
@@ -62,19 +64,5 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<!-- 引入自定义的样式文件 -->
+<style scoped src="../style/signin.css">
