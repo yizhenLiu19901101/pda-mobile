@@ -23,6 +23,8 @@
 
 <script>
 import axios from 'axios'
+// 设置URL
+axios.defaults.baseURL = 'http://www.api.zhixuanda.top'
 export default {
   name: 'HelloWorld',
   data () {
@@ -45,7 +47,7 @@ export default {
         userName: userName,
         password: userPassword
       }
-      axios.post('/api/user/login', user).then(function (response) {
+      axios.post('/user/login', user).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {
           console.log('登陆成功')
