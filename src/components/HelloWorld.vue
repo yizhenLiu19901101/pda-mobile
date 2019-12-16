@@ -51,6 +51,8 @@ export default {
         // eslint-disable-next-line
         if (response.data.code == 200) {
           console.log('登陆成功')
+          // 将token值赋值给全局变量
+          this.GLOBAL.token = response.data.body
           this.$router.push({name: 'Login'})
         } else {
           this.$message.error(response.data.msg)
