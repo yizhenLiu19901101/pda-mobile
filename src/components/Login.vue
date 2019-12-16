@@ -1,5 +1,7 @@
 <template>
   <div class="hello">
+    <span> {{ menuList }} </span>
+    <br>
      <button v-on:click="logout()">返回</button>
   </div>
 </template>
@@ -13,12 +15,13 @@ export default {
   data () {
     return {
       // 直接通过this访问全局变量
-      token: this.GLOBAL.token
+      menuList: this.GLOBAL.menuList
     }
   },
   methods: {
     logout () {
-      axios.create({
+      console.log(this.GLOBAL.token)
+      axios.get('/user/logout', {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
           'Content-Type': 'application/json; charset=UTF-8',
@@ -26,12 +29,7 @@ export default {
           'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
           'token': this.GLOBAL.token
         }
-      })
-      let user = {
-        userToken: this.GLOBAL.token
-      }
-      console.log(this.GLOBAL.token)
-      axios.post('/user/logout', user).then(function (response) {
+      }).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {
           console.log('退出成功')
