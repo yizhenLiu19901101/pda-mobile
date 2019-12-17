@@ -27,19 +27,28 @@ export default {
       menuList: this.GLOBAL.menuList
     }
   },
-  mounted: function () {
-    // 查询当前用户的菜单列表
-    this.queryUserMenus()
+  beforeCreate: function () {
+    axios.get('/user/queryUserPrivileges', {
+      headers: {
+        'token': this.GLOBAL.token
+      }
+    }).then(function (response) {
+      // eslint-disable-next-line
+      if (response.data.code == 200) {
+        // 将token值赋值给全局变量
+        this.GLOBAL.menuList = response.data.body
+        console.log(this.GLOBAL.menuList)
+      }
+    }.bind(this))
+      .catch(function (error) {
+        console.log(error)
+      })
   },
   methods: {
     logout () {
       console.log(this.GLOBAL.token)
       axios.get('/user/logout', {
         headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
           'token': this.GLOBAL.token
         }
       }).then(function (response) {
@@ -52,28 +61,6 @@ export default {
         } else {
           this.$message.error(response.data.msg)
           console.log(response.data.msg)
-        }
-      }.bind(this))
-        .catch(function (error) {
-          console.log(error)
-        })
-    },
-    queryUserMenus () {
-      console.log(this.GLOBAL.token)
-      axios.get('/user/queryUserPrivileges', {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-          'token': this.GLOBAL.token
-        }
-      }).then(function (response) {
-        // eslint-disable-next-line
-        if (response.data.code == 200) {
-          // 将token值赋值给全局变量
-          this.GLOBAL.menuList = response.data.body
-          console.log(this.GLOBAL.menuList)
         }
       }.bind(this))
         .catch(function (error) {

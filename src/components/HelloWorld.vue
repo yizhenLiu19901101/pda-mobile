@@ -34,14 +34,6 @@ export default {
   },
   methods: {
     login (userName, userPassword) {
-      axios.create({
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE'
-        }
-      })
       let user = {
         userName: userName,
         password: userPassword
@@ -54,8 +46,22 @@ export default {
           this.GLOBAL.token = response.data.body
           // 查询菜单列表
           console.log(this.GLOBAL.token)
-          this.GLOBAL.menuList = response.data.body
-          this.$router.push({name: 'Login'})
+          axios.get('/user/queryUserPrivileges', {
+            headers: {
+              'token': this.GLOBAL.token
+            }
+          }).then(function (response) {
+            // eslint-disable-next-line
+            if (response.data.code == 200) {
+              // 将token值赋值给全局变量
+              this.GLOBAL.menuList = response.data.body
+              this.$router.push({name: 'Login'})
+              console.log(this.GLOBAL.menuList)
+            }
+          }.bind(this))
+            .catch(function (error) {
+              console.log(error)
+            })
         }
       }.bind(this))
         .catch(function (error) {
