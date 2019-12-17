@@ -1,11 +1,20 @@
 <template>
-  <div class="hello">
-    <span> {{ menuList }} </span>
-    <br>
-     <button v-on:click="logout()">返回</button>
-  </div>
+  <el-container width = "100%" height = "100%">
+    <el-aside width = "10%" style="background-color: rgb(238, 241, 246)">
+      <el-menu  class="el-menu-demo">
+        <el-menu-item v-for="(menu,index) in menuList" :key="index">
+          {{ menu.menuName }}
+        </el-menu-item>
+      </el-menu>
+    </el-aside>
+    <el-container>
+    <el-header style="text-align: right; font-size: 12px">
+      <span v-on:click="logout()">退出</span>
+    </el-header>
+      <el-main></el-main>
+    </el-container>
+  </el-container>
 </template>
-
 <script>
 import axios from 'axios'
 // 设置URL
@@ -51,4 +60,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- 引入自定义的样式文件 -->
-<style scoped src="../style/signin.css">
+<style scoped src="../style/home.css">
