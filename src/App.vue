@@ -1,8 +1,5 @@
 <template>
-  <div id="app">
-    <!--<img src="./assets/dog.jpg">-->
-    <router-view/>
-  </div>
+  <router-view/>
 </template>
 
 <script>

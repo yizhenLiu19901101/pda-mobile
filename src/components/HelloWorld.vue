@@ -20,7 +20,6 @@
     </form>
   </div>
 </template>
-
 <script>
 import axios from 'axios'
 // 设置URL
@@ -54,32 +53,9 @@ export default {
           // 将token值赋值给全局变量
           this.GLOBAL.token = response.data.body
           // 查询菜单列表
-          axios.get('/user/queryUserPrivileges', {
-            headers: {
-              'X-Requested-With': 'XMLHttpRequest',
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-              'token': this.GLOBAL.token
-            }
-          }).then(function (response) {
-            // eslint-disable-next-line
-            if (response.data.code == 200) {
-              console.log(response.data.body)
-              // 将token值赋值给全局变量
-              this.GLOBAL.menuList = response.data.body
-              this.$router.push({name: 'Login'})
-            } else {
-              this.$message.error(response.data.msg)
-              console.log(response.data.msg)
-            }
-          }.bind(this))
-            .catch(function (error) {
-              console.log(error)
-            })
-        } else {
-          this.$message.error(response.data.msg)
-          console.log(response.data.msg)
+          console.log(this.GLOBAL.token)
+          this.GLOBAL.menuList = response.data.body
+          this.$router.push({name: 'Login'})
         }
       }.bind(this))
         .catch(function (error) {
