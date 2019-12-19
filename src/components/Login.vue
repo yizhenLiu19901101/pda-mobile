@@ -42,32 +42,9 @@ export default {
       axios.post('/user/login', user).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {
-          console.log('登陆成功')
           // 将token值赋值给全局变量
           this.GLOBAL.token = response.data.body
-          // 查询菜单列表
-          console.log(this.GLOBAL.token)
-          this.queryMenuList()
-        }
-      }.bind(this))
-        .catch(function (error) {
-          console.log(error)
-        })
-    },
-    // 查询用户的菜单列表
-    async queryMenuList () {
-      axios.get('/user/queryUserPrivileges', {
-        headers: {
-          'token': this.GLOBAL.token
-        }
-      }).then(function (response) {
-        // eslint-disable-next-line
-        if (response.data.code == 200) {
-          // 将token值赋值给全局变量
-          this.GLOBAL.menuList = response.data.body
-          // 页面跳转
           this.$router.push({name: 'Home'})
-          console.log(this.GLOBAL.menuList)
         }
       }.bind(this))
         .catch(function (error) {
@@ -80,4 +57,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- 引入自定义的样式文件 -->
-<style scoped src="../style/signin.css">
+<style scoped src="../style/login.css">

@@ -1,17 +1,29 @@
 <template>
   <el-container width = "100%" height = "100%">
     <el-aside width = "10%" style="background-color: rgb(238, 241, 246)">
-      <el-menu  class="el-menu-demo">
-        <el-menu-item v-for="(menu,index) in menuList" :key="index">
-          {{ menu.menuName }}
+      <el-menu class="el-menu-demo" @select="choose">
+        <el-menu-item v-for="(menu,index) in menuList" :key="index" :index="menu.menuPath"
+        :keyPath="menu.menuPath">
+          {{ menu.menuName}}
         </el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
     <el-header style="text-align: right; font-size: 12px">
-      <span v-on:click="logout()">退出</span>
+       <el-dropdown>
+        <i class="el-icon-setting" style="margin-right: 15px"></i>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>修改密码</el-dropdown-item>
+          <el-dropdown-item>修改昵称</el-dropdown-item>
+          <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+      <span>乐乐</span>
     </el-header>
-      <el-main></el-main>
+        <!-- 被渲染的子页面-->
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -24,12 +36,14 @@ export default {
   data () {
     return {
       // 直接通过this访问全局变量
-      menuList: this.GLOBAL.menuList
+      menuList: null
     }
+  },
+  mounted: function () {
+    this.queryMenuList()
   },
   methods: {
     logout () {
-      console.log(this.GLOBAL.token)
       axios.get('/user/logout', {
         headers: {
           'token': this.GLOBAL.token
@@ -37,20 +51,19 @@ export default {
       }).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {
-          console.log('退出成功')
           // 将token值赋值给全局变量
           this.GLOBAL.token = response.data.body
           this.$router.push({name: 'Login'})
         } else {
           this.$message.error(response.data.msg)
-          console.log(response.data.msg)
         }
       }.bind(this))
         .catch(function (error) {
           console.log(error)
         })
     },
-    queryUserMenus () {
+    // 查询用户的菜单列表
+    queryMenuList () {
       axios.get('/user/queryUserPrivileges', {
         headers: {
           'token': this.GLOBAL.token
@@ -59,13 +72,15 @@ export default {
         // eslint-disable-next-line
         if (response.data.code == 200) {
           // 将token值赋值给全局变量
-          this.GLOBAL.menuList = response.data.body
-          console.log(this.GLOBAL.menuList)
+          this.menuList = response.data.body
         }
       }.bind(this))
         .catch(function (error) {
           console.log(error)
         })
+    },
+    choose (key, keyPath) {
+      this.$router.push(key)
     }
   }
 }
