@@ -25,7 +25,7 @@ import axios from 'axios'
 // 设置URL
 axios.defaults.baseURL = 'http://www.api.zhixuanda.top'
 export default {
-  name: 'HelloWorld',
+  name: 'Login',
   data () {
     return {
       userName: '',
@@ -43,8 +43,22 @@ export default {
         // eslint-disable-next-line
         if (response.data.code == 200) {
           // 将token值赋值给全局变量
-          this.GLOBAL.token = response.data.body
-          this.$router.push({name: 'Home'})
+          this.$store.commit('changeToken', response.data.body)
+          axios.get('/user/queryUserPrivileges', {
+            headers: {
+              'token': this.$store.state.token
+            }
+          }).then(function (response) {
+            // eslint-disable-next-line
+            if (response.data.code == 200) {
+              // 将token值赋值给全局变量
+              this.$store.commit('changeMenuList', response.data.body)
+              this.$router.push({name: 'Home'})
+            }
+          }.bind(this))
+            .catch(function (error) {
+              console.log(error)
+            })
         }
       }.bind(this))
         .catch(function (error) {

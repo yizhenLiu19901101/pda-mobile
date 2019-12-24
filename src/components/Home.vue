@@ -1,30 +1,32 @@
 <template>
-  <el-container width = "100%" height = "100%">
-    <el-aside width = "10%" style="background-color: rgb(238, 241, 246)">
-      <el-menu class="el-menu-demo" @select="choose">
-        <el-menu-item v-for="(menu,index) in menuList" :key="index" :index="menu.menuPath"
-        :keyPath="menu.menuPath">
-          {{ menu.menuName}}
-        </el-menu-item>
-      </el-menu>
-    </el-aside>
-    <el-container>
-    <el-header style="text-align: right; font-size: 12px">
-       <el-dropdown>
-        <i class="el-icon-setting" style="margin-right: 15px"></i>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>修改密码</el-dropdown-item>
-          <el-dropdown-item>修改昵称</el-dropdown-item>
-          <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <span>乐乐</span>
-    </el-header>
-        <!-- 被渲染的子页面-->
+  <el-container style="width: 100%;height: 100%;">
+    <el-header>
+      <el-row :gutter="20">
+        <el-col :span="18">
+          <el-menu @select="choose" mode="horizontal" style="background-color: #007BFF">
+            <el-menu-item v-for="(menu,index) in menuList" :key="index" :index="menu.menuPath"
+              :keyPath="menu.menuPath">
+              {{ menu.menuName}}
+            </el-menu-item>
+          </el-menu>
+        </el-col>
+        <el-col :span="2">
+        <el-dropdown>
+          <i class="el-icon-setting" style="color: #FFFFFF;margin-right: 15px"></i>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>修改密码</el-dropdown-item>
+            <el-dropdown-item>修改昵称</el-dropdown-item>
+            <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <span style="color: #FFFFFF">lele</span>
+      </el-col>
+    </el-row>
+      </el-header>
+      <!-- 被渲染的子页面-->
       <el-main>
         <router-view></router-view>
       </el-main>
-    </el-container>
   </el-container>
 </template>
 <script>
@@ -36,43 +38,21 @@ export default {
   data () {
     return {
       // 直接通过this访问全局变量
-      menuList: null
+      menuList: this.$store.state.menuList
     }
-  },
-  mounted: function () {
-    this.queryMenuList()
   },
   methods: {
     logout () {
       axios.get('/user/logout', {
         headers: {
-          'token': this.GLOBAL.token
+          'token': this.$store.state.token
         }
       }).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {
-          // 将token值赋值给全局变量
-          this.GLOBAL.token = response.data.body
           this.$router.push({name: 'Login'})
         } else {
           this.$message.error(response.data.msg)
-        }
-      }.bind(this))
-        .catch(function (error) {
-          console.log(error)
-        })
-    },
-    // 查询用户的菜单列表
-    queryMenuList () {
-      axios.get('/user/queryUserPrivileges', {
-        headers: {
-          'token': this.GLOBAL.token
-        }
-      }).then(function (response) {
-        // eslint-disable-next-line
-        if (response.data.code == 200) {
-          // 将token值赋值给全局变量
-          this.menuList = response.data.body
         }
       }.bind(this))
         .catch(function (error) {
