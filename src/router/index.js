@@ -20,7 +20,7 @@ export default new Router({
       path: '/home',
       name: 'Home',
       // 重定向，第一次进入就进入看板，不添加的话第一次进入右侧是空白
-      redirect: 'showView',
+      redirect: '/showView',
       children: [
         {
           path: '/menu',
