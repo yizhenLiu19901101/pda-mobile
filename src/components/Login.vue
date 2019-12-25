@@ -39,7 +39,11 @@ export default {
         userName: userName,
         password: userPassword
       }
-      axios.post('/user/login', user).then(function (response) {
+      axios.request({
+        url: `/user/login`,
+        data: user,
+        method: 'post'
+      }).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {
           // 将token值赋值给全局变量
