@@ -1,32 +1,33 @@
 <template>
   <el-container style="width: 100%;height: 100%;">
     <el-header>
-      <el-row :gutter="20">
-        <el-col :span="18">
-          <el-menu @select="choose" mode="horizontal" style="background-color: #007BFF">
+      <el-row :gutter="10">
+        <el-col :span="20">
+          <el-menu @select="choose" mode="horizontal" style="background-color: #007BFF"
+          text-color="#FFFFFF" active-text-color="#000000">
             <el-menu-item v-for="(menu,index) in menuList" :key="index" :index="menu.menuPath"
-              :keyPath="menu.menuPath">
+                :keyPath="menu.menuPath">
               {{ menu.menuName}}
             </el-menu-item>
           </el-menu>
         </el-col>
-        <el-col :span="2">
-        <el-dropdown>
-          <i class="el-icon-setting" style="color: #FFFFFF;margin-right: 15px"></i>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>修改密码</el-dropdown-item>
-            <el-dropdown-item>修改昵称</el-dropdown-item>
-            <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <span style="color: #FFFFFF">lele</span>
-      </el-col>
-    </el-row>
-      </el-header>
-      <!-- 被渲染的子页面-->
-      <el-main>
-        <router-view></router-view>
-      </el-main>
+        <el-col :span="4">
+          <el-dropdown>
+            <i class="el-icon-setting" style="color: #FFFFFF;margin-right: 15px"></i>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-dropdown-item>修改昵称</el-dropdown-item>
+              <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span style="color: #FFFFFF">lele</span>
+        </el-col>
+      </el-row>
+    </el-header>
+    <!-- 被渲染的子页面-->
+    <el-main>
+      <router-view></router-view>
+    </el-main>
   </el-container>
 </template>
 <script>

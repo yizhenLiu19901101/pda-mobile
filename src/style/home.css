@@ -7,6 +7,6 @@ body {
   color: #FFFFFF;
   line-height: 60px;
 }
-.el-menu-item {
+.el-menu--horizontal {
   color: #FFFFFF
 }
