@@ -23,7 +23,7 @@
 <script>
 import axios from 'axios'
 // 设置URL
-axios.defaults.baseURL = 'http://www.api.zhixuanda.top'
+axios.defaults.baseURL = 'http://www.operate.zhixuanda.top/api'
 export default {
   name: 'Login',
   data () {
