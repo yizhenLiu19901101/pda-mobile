@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://www.operate.zhixuanda.top/api',//要访问的后端接口
+        target: 'http://www.client.zhixuanda.top/api',//要访问的后端接口
         changeOrigin: true
      }
     },
