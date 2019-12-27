@@ -19,6 +19,6 @@ COPY . .
 # build app for production with minification
 RUN npm run build
 
-EXPOSE 8200
+EXPOSE 8300
 # 加入端口自定义配置，避免与其他K8S容器端口冲突
-CMD [ "http-server","-p","8200", "dist" ]
+CMD [ "http-server","-p","8300", "dist" ]
