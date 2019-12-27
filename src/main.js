@@ -7,10 +7,10 @@ import store from './store'
 // 引入bootstrap样式文件
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import mintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 // 引入全局变量文件,挂载到Vue实例上面
-Vue.use(ElementUI)
+Vue.use(mintUI)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

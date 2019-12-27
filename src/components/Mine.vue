@@ -1,11 +1,11 @@
 <template>
   <div>
-    <span>用户</span>
+    <span>我的</span>
   </div>
 </template>
 <script>
 export default {
-  name: 'User'
+  name: 'Mine'
 }
 </script>
 

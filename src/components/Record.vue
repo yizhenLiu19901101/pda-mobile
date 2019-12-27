@@ -1,11 +1,11 @@
 <template>
   <div>
-    <span>角色</span>
+    <span>操作</span>
   </div>
 </template>
 <script>
 export default {
-  name: 'Role'
+  name: 'Record'
 }
 </script>
 
