@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form :inline="true" :model="dictionaryType" class="demo-form-inline">
-      <el-form-item label="字典类型名称">
+      <el-form-item label="名称">
         <el-input v-model="dictionaryType.typeName"></el-input>
       </el-form-item>
       <el-form-item>
