@@ -1,11 +1,23 @@
 <template>
   <div>
-    <span>操作</span>
+  <mt-navbar>
+    <mt-tab-item v-for="(tag,index) in tagList" v-bind:key = "index"
+    :id = "tag">
+      {{tag.menuName}}
+    </mt-tab-item>
+  </mt-navbar>
   </div>
 </template>
 <script>
 export default {
-  name: 'Record'
+  // 名称
+  name: 'Record',
+  data () {
+    return {
+      menuId: this.$store.state.currentMenuId,
+      tagList: this.$store.state.tagList
+    }
+  }
 }
 </script>
 

@@ -3,7 +3,7 @@
     <router-view></router-view>
     <mt-tabbar v-model = "message">
       <mt-tab-item v-bind:key="index" v-for="(menu, index) in menuList"
-        :id = "menu.menuPath">
+        :id = "menu">
         {{ menu.menuName}}
       </mt-tab-item>
     </mt-tabbar>
@@ -24,10 +24,26 @@ export default {
   },
   watch: {
     message: function (val, oldVal) {
-      console.log(val + '' + oldVal)
-      if (val !== oldVal) {
-        console.log(val)
-        this.$router.push(val)
+      console.log(val.menuPath + '' + oldVal)
+      if (val.menuPath !== oldVal) {
+        // 保存当前页面的ID
+        this.$store.commit('changeCurrentMenuId', val.menuId)
+        // 获得下一个页面的标签列表
+        axios.get('/user/queryUserPrivileges/' + val.menuId, {
+          headers: {
+            'token': this.$store.state.token
+          }
+        }).then(function (response) {
+          // eslint-disable-next-line
+          if (response.data.code == 200) {
+            // 将token值赋值给全局变量
+            this.$store.commit('changeTagList', response.data.body)
+            this.$router.push(val.menuPath)
+          }
+        }.bind(this))
+          .catch(function (error) {
+            console.log(error)
+          })
       }
     }
   },

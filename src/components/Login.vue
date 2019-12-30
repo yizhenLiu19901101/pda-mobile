@@ -48,7 +48,7 @@ export default {
         if (response.data.code == 200) {
           // 将token值赋值给全局变量
           this.$store.commit('changeToken', response.data.body)
-          axios.get('/user/queryUserPrivileges', {
+          axios.get('/user/queryUserPrivileges/0', {
             headers: {
               'token': this.$store.state.token
             }

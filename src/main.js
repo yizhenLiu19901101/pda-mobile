@@ -8,7 +8,7 @@ import store from './store'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import mintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
+import './style/my-mint.css'
 // 引入全局变量文件,挂载到Vue实例上面
 Vue.use(mintUI)
 Vue.config.productionTip = false

@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Mine from '@/components/Mine'
 import Record from '@/components/Record'
+import Logout from '@/components/Logout'
 Vue.use(Router)
 
 export default new Router({
@@ -13,6 +14,11 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/logout',
+      name: 'Logout',
+      component: Logout
     },
     {
       path: '/home',

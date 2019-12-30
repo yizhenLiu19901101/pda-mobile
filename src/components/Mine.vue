@@ -1,11 +1,23 @@
 <template>
   <div>
-    <span>我的</span>
+   <mt-button type = "primary" v-for="(tag,index) in tagList" v-bind:key = "index" v-on:click.prevent = "cellClick()">
+     {{ tag.menuName }}
+   </mt-button>
   </div>
 </template>
 <script>
 export default {
-  name: 'Mine'
+  name: 'Mine',
+  data () {
+    return {
+      tagList: this.$store.state.tagList
+    }
+  },
+  methods: {
+    cellClick () {
+      this.$router.push('/logout')
+    }
+  }
 }
 </script>
 
