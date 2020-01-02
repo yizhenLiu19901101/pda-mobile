@@ -2,7 +2,9 @@ html,
 body {
   height: 100%;
 }
-.mint-tabbar > .mint-tab-item.is-selected {
-  background-color: #eaeaea;
-  color: #26a2ff;
+
+.logo_icon {
+  width:80px;
+  height:80px;
+  border-radius:50%;
 }
