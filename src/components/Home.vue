@@ -2,9 +2,9 @@
 <div>
     <router-view></router-view>
     <mt-tabbar v-model = "message">
-      <mt-tab-item v-bind:key="index" v-for="(menu, index) in menuList"
+      <mt-tab-item  v-bind:key = "index" v-for="(menu, index) in menuList"
         :id = "menu">
-        {{ menu.menuName}}
+        {{ menu.menuName }}
       </mt-tab-item>
     </mt-tabbar>
   </div>
@@ -19,7 +19,8 @@ export default {
     return {
       // 直接通过this访问全局变量
       menuList: this.$store.state.menuList,
-      message: '/record'
+      // 默认选中第一项
+      message: this.$store.state.currentMenu
     }
   },
   watch: {
@@ -27,25 +28,15 @@ export default {
       console.log(val.menuPath + '' + oldVal)
       if (val.menuPath !== oldVal) {
         // 保存当前页面的ID
-        this.$store.commit('changeCurrentMenuId', val.menuId)
-        // 获得下一个页面的标签列表
-        axios.get('/user/queryUserPrivileges/' + val.menuId, {
-          headers: {
-            'token': this.$store.state.token
-          }
-        }).then(function (response) {
-          // eslint-disable-next-line
-          if (response.data.code == 200) {
-            // 将token值赋值给全局变量
-            this.$store.commit('changeTagList', response.data.body)
-            this.$router.push(val.menuPath)
-          }
-        }.bind(this))
-          .catch(function (error) {
-            console.log(error)
-          })
+        this.$store.commit('changeCurrentMenu', val)
+        this.queryTagList(val)
       }
     }
+  },
+  created: function () {
+    let menu = this.$store.state.currentMenu
+    console.log(JSON.stringify(menu))
+    this.queryTagList(menu)
   },
   methods: {
     logout () {
@@ -59,6 +50,24 @@ export default {
           this.$router.push({name: 'Login'})
         } else {
           this.$message.error(response.data.msg)
+        }
+      }.bind(this))
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    queryTagList (menu) {
+      // 获得下一个页面的标签列表
+      axios.get('/user/queryUserPrivileges/' + menu.menuId, {
+        headers: {
+          'token': this.$store.state.token
+        }
+      }).then(function (response) {
+        // eslint-disable-next-line
+        if (response.data.code == 200) {
+          // 将token值赋值给全局变量
+          this.$store.commit('changeTagList', response.data.body)
+          this.$router.push(menu.menuPath)
         }
       }.bind(this))
         .catch(function (error) {

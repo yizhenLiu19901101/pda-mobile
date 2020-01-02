@@ -1,8 +1,9 @@
 <template>
   <div>
-   <mt-button type = "primary" v-for="(tag,index) in tagList" v-bind:key = "index" v-on:click.prevent = "cellClick()">
+   <mt-cell isLink v-for="(tag,index) in tagList" v-bind:key = "index"
+   :to = "tag.menuPath">
      {{ tag.menuName }}
-   </mt-button>
+   </mt-cell>
   </div>
 </template>
 <script>
@@ -11,11 +12,6 @@ export default {
   data () {
     return {
       tagList: this.$store.state.tagList
-    }
-  },
-  methods: {
-    cellClick () {
-      this.$router.push('/logout')
     }
   }
 }

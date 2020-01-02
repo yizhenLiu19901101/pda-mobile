@@ -57,6 +57,8 @@ export default {
             if (response.data.code == 200) {
               // 将token值赋值给全局变量
               this.$store.commit('changeMenuList', response.data.body)
+              console.log(JSON.stringify(response.data.body[0]))
+              this.$store.commit('changeCurrentMenu', response.data.body[0])
               this.$router.push({name: 'Home'})
             }
           }.bind(this))

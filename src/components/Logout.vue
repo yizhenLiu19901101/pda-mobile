@@ -1,5 +1,13 @@
 <template>
+  <div>
+    <mt-header>
+    <router-link to="/mine" slot="left">
+      <mt-button icon="back">返回</mt-button>
+    </router-link>
+    <mt-button icon="more" slot="right"></mt-button>
+  </mt-header>
   <mt-button type = 'primary' v-on:click = "logout">退出</mt-button>
+  </div>
 </template>
 <script>
 import axios from 'axios'

@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import Mine from '@/components/Mine'
 import Record from '@/components/Record'
 import Logout from '@/components/Logout'
+import AboutUs from '@/components/AboutUs'
 Vue.use(Router)
 
 export default new Router({
@@ -21,10 +22,13 @@ export default new Router({
       component: Logout
     },
     {
+      path: '/aboutUs',
+      name: 'AboutUs',
+      component: AboutUs
+    },
+    {
       path: '/home',
       name: 'Home',
-      // 重定向，第一次进入就进入看板，不添加的话第一次进入右侧是空白
-      redirect: '/record',
       children: [
         {
           path: '/mine',
