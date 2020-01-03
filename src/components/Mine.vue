@@ -1,24 +1,23 @@
 <template>
   <div>
-    <div style = "margin-left:30%;margin-top:5%">
-      <div>
-        <img class = "logo_icon" :src = "currentUser.imageUrl" alt="头像" />
-        <span style="margin-left:5%">
-          {{ currentUser.userName}}
-        </span>
-      </div>
-      <span>
-        {{ currentUser.userDesc }}
+    <div style = "margin-left:30%;margin-top:20%">
+      <img class = "logo_icon" :src = "currentUser.imageUrl" alt="头像"/>
+      <span style="margin-left:5%">
+        {{ currentUser.userName }}
       </span>
-      <br>
-      <span>
-       {{ currentUser.userLevel}}
+      <span style="margin-left:1%">
+        <img slot = "icon" class = "level_icon" src = "../assets/gold.png" v-if="currentUser.userLevel == 3"/>
+        <img slot = "icon" class = "level_icon" src = "../assets/silver.png" v-if="currentUser.userLevel == 2"/>
+        <img slot = "icon" class = "level_icon" src = "../assets/bronze.png" v-if="currentUser.userLevel == 1"/>
       </span>
     </div>
-    <div style="margin-top:60%;">
+    <div style = "margin-top:5%;color:gray;text-align:center">
+      {{currentUser.userDesc}}
+    </div>
+    <div style="margin-top:40%;">
       <mt-cell isLink v-for="(tag,index) in tagList" v-bind:key = "index"
-      :to = "tag.menuPath">
-        {{ tag.menuName }}
+      :to = "tag.menuPath" :title = "tag.menuName">
+        <img slot="icon" :src = "tag.menuImage" width = "24" height = "24">
       </mt-cell>
     </div>
   </div>

@@ -2,11 +2,12 @@
   <div>
     <mt-header>
       <router-link to="/mine" slot="left">
-        <mt-button icon="back">返回</mt-button>
+        <mt-button icon="back"></mt-button>
       </router-link>
-      <mt-button icon="more" slot="right"></mt-button>
     </mt-header>
-    <span>个人数据管理专家</span>
+    <div style = "color:gray;text-align:center">
+      个人数据管理专家
+    </div>
   </div>
 </template>
 <script>

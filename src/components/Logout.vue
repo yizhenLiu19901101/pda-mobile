@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <div style = "width:100%;height:100%">
     <mt-header>
     <router-link to="/mine" slot="left">
-      <mt-button icon="back">返回</mt-button>
+      <mt-button icon="back"></mt-button>
     </router-link>
-    <mt-button icon="more" slot="right"></mt-button>
   </mt-header>
-  <mt-button type = 'primary' v-on:click = "logout">退出</mt-button>
+  <mt-button type = 'primary' v-on:click = "logout">
+    退出
+  </mt-button>
   </div>
 </template>
 <script>
