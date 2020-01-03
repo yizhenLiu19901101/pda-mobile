@@ -9,8 +9,11 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import mintUI from 'mint-ui'
 import './style/my-mint.css'
+import LightTimeline from 'vue-light-timeline'
 // 引入全局变量文件,挂载到Vue实例上面
 Vue.use(mintUI)
+// 使用时间轴组件
+Vue.use(LightTimeline)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

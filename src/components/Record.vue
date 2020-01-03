@@ -6,6 +6,12 @@
         {{tag.menuName}}
       </mt-tab-item>
     </mt-navbar>
+    <span v-if="selected.menuId == 8">
+      <light-timeline :items = 'items'/>
+    </span>
+    <span v-if="selected.menuId == 9">
+     <v-chart theme="ovilia-green" :options="polar"/>
+    </span>
   </div>
 </template>
 <script>
@@ -16,7 +22,18 @@ export default {
     return {
       menuId: this.$store.state.currentMenuId,
       tagList: this.$store.state.tagList,
-      selected: this.$store.state.tagList[0]
+      selected: this.$store.state.tagList[0],
+      items: [
+        {
+          tag: '2019-02-12',
+          content: '测试内容'
+        },
+        {
+          tag: '2019-02-13',
+          type: 'circle',
+          content: '练习内容'
+        }
+      ]
     }
   }
 }
