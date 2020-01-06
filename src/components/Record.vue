@@ -10,45 +10,63 @@
       <light-timeline :items = 'items'/>
     </span>
     <span v-if="selected.menuId == 9">
-      <ve-line :data = "chartData"></ve-line>
+      <ve-pie :data = "chartData"></ve-pie>
     </span>
   </div>
 </template>
 <script>
-import VeLine from 'v-charts/lib/line'
+import axios from 'axios'
+import VePie from 'v-charts/lib/pie'
 export default {
   // 名称
   name: 'Record',
   components: {
-    VeLine
+    VePie
   },
   data () {
     return {
       menuId: this.$store.state.currentMenuId,
       tagList: this.$store.state.tagList,
       selected: this.$store.state.tagList[0],
-      items: [
-        {
-          tag: '2019-02-12',
-          content: '测试内容'
-        },
-        {
-          tag: '2019-02-13',
-          type: 'circle',
-          content: '练习内容'
-        }
-      ],
+      items: [],
       chartData: {
-        columns: ['日期', '销售量'],
-        rows: [
-          {'日期': '1月1日', '销售量': 123},
-          {'日期': '1月2日', '销售量': 1223},
-          {'日期': '1月3日', '销售量': 2123},
-          {'日期': '1月4日', '销售量': 4123},
-          {'日期': '1月5日', '销售量': 3123},
-          {'日期': '1月6日', '销售量': 7123}
-        ]
+        columns: ['item', 'money'],
+        rows: []
       }
+    }
+  },
+  watch: {
+    selected: function (val) {
+      // 查询目标数据
+      this.queryData(val.menuId - 8)
+    }
+  },
+  created: function () {
+    // 查询明细数据
+    this.queryData(0)
+  },
+  methods: {
+    queryData (queryType) {
+      axios.get('/finance/getDetailDate/' + queryType, {
+        headers: {
+          'token': this.$store.state.token
+        }
+      }).then(function (response) {
+        // eslint-disable-next-line
+        if (response.data.code == 200) {
+          // 将token值赋值给全局变量
+          if (queryType === 0) {
+            this.items = response.data.body
+            console.log(JSON.stringify(this.items))
+          } else {
+            this.rows = response.data.body
+            console.log(JSON.stringify(this.rows))
+          }
+        }
+      }.bind(this))
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }
