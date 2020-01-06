@@ -38,12 +38,12 @@ export default {
   watch: {
     selected: function (val) {
       // 查询目标数据
-      this.queryData(val.menuId - 8)
+      this.queryData(val.menuId - 7)
     }
   },
   created: function () {
     // 查询明细数据
-    this.queryData(0)
+    this.queryData(1)
   },
   methods: {
     queryData (queryType) {
@@ -55,12 +55,12 @@ export default {
         // eslint-disable-next-line
         if (response.data.code == 200) {
           // 将token值赋值给全局变量
-          if (queryType === 0) {
+          if (queryType === 1) {
             this.items = response.data.body
             console.log(JSON.stringify(this.items))
           } else {
-            this.rows = response.data.body
-            console.log(JSON.stringify(this.rows))
+            this.chartData.rows = response.data.body
+            console.log(JSON.stringify(this.chartData.rows))
           }
         }
       }.bind(this))
