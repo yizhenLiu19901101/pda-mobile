@@ -10,8 +10,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import mintUI from 'mint-ui'
 import './style/my-mint.css'
 import LightTimeline from 'vue-light-timeline'
+import VCharts from 'v-charts'
 // 引入全局变量文件,挂载到Vue实例上面
 Vue.use(mintUI)
+Vue.use(VCharts)
 // 使用时间轴组件
 Vue.use(LightTimeline)
 Vue.config.productionTip = false

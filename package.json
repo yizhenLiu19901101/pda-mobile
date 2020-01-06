@@ -15,8 +15,10 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "echarts": "^4.6.0",
     "mint-ui": "^2.2.13",
     "popper.js": "^1.16.0",
+    "v-charts": "^1.19.0",
     "vue": "^2.5.2",
     "vue-echarts": "^4.1.0",
     "vue-light-timeline": "^1.0.3",
