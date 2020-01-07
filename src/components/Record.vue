@@ -7,6 +7,9 @@
       </mt-tab-item>
     </mt-navbar>
     <span v-if="selected.menuId == 8">
+      <div class = "logo_div">
+        <img class = "logo" src='../assets/editor.png' alt = "写一笔" v-on:click = "addRecord"/>
+      </div>
       <light-timeline :items = 'items'/>
     </span>
     <span v-if="selected.menuId == 9">
@@ -46,6 +49,7 @@ export default {
     this.queryData(1)
   },
   methods: {
+    // 查询财务数据
     queryData (queryType) {
       axios.get('/finance/getDetailDate/' + queryType, {
         headers: {
@@ -67,6 +71,10 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
+    },
+    // 跳转到添加记录页面
+    addRecord () {
+      this.$router.push({name: 'AddRecord'})
     }
   }
 }

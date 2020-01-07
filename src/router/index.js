@@ -6,6 +6,7 @@ import Mine from '@/components/Mine'
 import Record from '@/components/Record'
 import Logout from '@/components/Logout'
 import AboutUs from '@/components/AboutUs'
+import AddRecord from '@/components/AddRecord'
 Vue.use(Router)
 
 export default new Router({
@@ -25,6 +26,11 @@ export default new Router({
       path: '/aboutUs',
       name: 'AboutUs',
       component: AboutUs
+    },
+    {
+      path: '/addRecord',
+      name: 'AddRecord',
+      component: AddRecord
     },
     {
       path: '/home',
