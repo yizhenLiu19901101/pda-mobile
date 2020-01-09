@@ -58,7 +58,7 @@ export default {
               // 将token值赋值给全局变量
               this.$store.commit('changeMenuList', response.data.body)
               console.log(JSON.stringify(response.data.body[0]))
-              this.$store.commit('changeCurrentMenu', response.data.body[0])
+              this.$store.commit('changeCurrentMenu', response.data.body[0].menuId)
               this.$router.push({name: 'Home'})
             }
           }.bind(this))

@@ -1,12 +1,11 @@
 <template>
 <div>
     <router-view></router-view>
-    <mt-tabbar v-model = "message">
-      <mt-tab-item  v-bind:key = "index" v-for="(menu, index) in menuList"
-        :id = "menu">
+    <van-tabbar v-model = "active" @change = "change" class = "tabBar">
+      <van-tabbar-item  :name = "menu.menuId" v-bind:key = "index" v-for = "(menu, index) in menuList">
         {{ menu.menuName }}
-      </mt-tab-item>
-    </mt-tabbar>
+      </van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 <script>
@@ -20,17 +19,7 @@ export default {
       // 直接通过this访问全局变量
       menuList: this.$store.state.menuList,
       // 默认选中第一项
-      message: this.$store.state.currentMenu
-    }
-  },
-  watch: {
-    message: function (val, oldVal) {
-      console.log(val.menuPath + '' + oldVal)
-      if (val.menuPath !== oldVal) {
-        // 保存当前页面的ID
-        this.$store.commit('changeCurrentMenu', val)
-        this.queryTagList(val)
-      }
+      active: this.$store.state.currentMenu
     }
   },
   created: function () {
@@ -39,6 +28,12 @@ export default {
     this.queryTagList(menu)
   },
   methods: {
+    change (index) {
+      console.log('index = ' + index)
+      // 保存当前页面的ID
+      this.$store.commit('changeCurrentMenu', index)
+      this.queryTagList(index)
+    },
     logout () {
       axios.get('/user/logout', {
         headers: {
@@ -56,9 +51,9 @@ export default {
           console.log(error)
         })
     },
-    queryTagList (menu) {
+    queryTagList (menuId) {
       // 获得下一个页面的标签列表
-      axios.get('/user/queryUserPrivileges/' + menu.menuId, {
+      axios.get('/user/queryUserPrivileges/' + menuId, {
         headers: {
           'token': this.$store.state.token
         }
@@ -67,7 +62,33 @@ export default {
         if (response.data.code == 200) {
           // 将token值赋值给全局变量
           this.$store.commit('changeTagList', response.data.body)
-          this.$router.push(menu.menuPath)
+          for (let index in this.menuList) {
+            let menu = this.menuList[index]
+            if (menu.menuId === menuId) {
+              console.log('menuId = ' + menu.menuId)
+              if (menu.menuId === 6) {
+                this.queryData(menu.menuPath)
+              } else {
+                this.$router.push(menu.menuPath)
+              }
+            }
+          }
+        }
+      }.bind(this))
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    queryData (menuPath) {
+      axios.get('/finance/getDetailDate/1', {
+        headers: {
+          'token': this.$store.state.token
+        }
+      }).then(function (response) {
+        // eslint-disable-next-line
+        if (response.data.code == 200) {
+          this.$store.commit('changeItems', response.data.body)
+          this.$router.push(menuPath)
         }
       }.bind(this))
         .catch(function (error) {

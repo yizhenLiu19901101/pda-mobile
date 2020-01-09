@@ -7,13 +7,14 @@ import store from './store'
 // 引入bootstrap样式文件
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import mintUI from 'mint-ui'
-import './style/my-mint.css'
 import LightTimeline from 'vue-light-timeline'
 import VCharts from 'v-charts'
+import vant from 'vant'
+import 'vant/lib/index.css'
+import '@vant/touch-emulator'
 
 // 引入全局变量文件,挂载到Vue实例上面
-Vue.use(mintUI)
+Vue.use(vant)
 Vue.use(VCharts)
 // 使用时间轴组件
 Vue.use(LightTimeline)

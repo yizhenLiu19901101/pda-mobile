@@ -1,13 +1,10 @@
 <template>
   <div style = "width:100%;height:100%">
-    <mt-header>
-    <router-link to="/mine" slot="left">
-      <mt-button icon="back"></mt-button>
-    </router-link>
-  </mt-header>
-  <mt-button type = 'primary' v-on:click = "logout">
+  <van-nav-bar left-arrow @click-left = "onClickLeft">
+  </van-nav-bar>
+  <van-button round type ="info" v-on:click = "logout">
     退出
-  </mt-button>
+  </van-button>
   </div>
 </template>
 <script>
@@ -15,6 +12,9 @@ import axios from 'axios'
 export default {
   name: 'Logout',
   methods: {
+    onClickLeft () {
+      this.$router.push({name: 'Mine'})
+    },
     // 退出
     logout () {
       axios.get('/user/logout', {

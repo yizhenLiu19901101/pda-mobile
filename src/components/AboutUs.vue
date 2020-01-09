@@ -1,10 +1,7 @@
 <template>
   <div>
-    <mt-header>
-      <router-link to="/mine" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+    <van-nav-bar left-arrow @click-left = "onClickLeft">
+    </van-nav-bar>
     <div style = "color:gray;text-align:center">
       个人数据管理专家
     </div>
@@ -12,7 +9,12 @@
 </template>
 <script>
 export default {
-  name: 'AboutUs'
+  name: 'AboutUs',
+  methods: {
+    onClickLeft () {
+      this.$router.push({name: 'Mine'})
+    }
+  }
 }
 </script>
 

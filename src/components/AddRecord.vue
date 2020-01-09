@@ -1,32 +1,29 @@
 <template>
   <div>
-    <mt-header>
-      <router-link to = "/home" slot = "left">
-        <mt-button icon = "back"></mt-button>
-      </router-link>
-    </mt-header>
-    <mt-field label = "时间" placeholder = "请选择消费时间" v-model = "updatedTime" >
-      <img class = "logo" src='../assets/calendar.png' alt = "写一笔" v-on:click.prevent = "openPicker"/>
-    </mt-field>
-    <mt-radio title = "收支类型" :options = 'consumType' v-model = "itemId"/>
-    <mt-field label = "金额" placeholder = "请输入金额" type = "number" v-model = "costMoney" />
-    <mt-field label = "备注" placeholder = "请输入备注信息" type = "text" v-model = "note" />
-    <mt-button class = "submitButton" type = "primary" v-on:click.prevent = "addRecord (updatedTime, costMoney, note, itemId)">
+    <van-nav-bar left-arrow @click-left = "onClickLeft">
+    </van-nav-bar>
+    <van-field label = "消费时间" placeholder = "请选择消费时间" v-model = "updatedTime" right-icon="calender-o" @click-right-icon = "showTime"/>
+    <van-field label = "收支类型" placeholder = "请选择收支类型" right-icon="filter-o" @click-right-icon = "showType" v-model = "itemName"/>
+    <van-field label = "金额" placeholder = "请输入金额" type = "number" v-model = "costMoney" />
+    <van-field label = "备注" placeholder = "请输入备注信息" type = "text" v-model = "note" />
+    <van-button class = "submitButton" round type="info" @click = "addRecord (updatedTime, costMoney, note, itemId)">
       提交
-    </mt-button>
-    <!-- 时间组件 -->
-    <mt-datetime-picker
-      v-model = "updatedTime"
-      type = "datetime"
-      ref = "picker"
-      year-format = "{value} 年"
-      month-format = "{value} 月"
-      date-format = "{value} 日"
-      hour-format = "{value} 时"
-      minute-format ="{value} 分"
-      @confirm = "handleConfirm"
-      :startDate = "startDate"
-    ></mt-datetime-picker>
+    </van-button>
+    <!-- 时间弹出组件 -->
+    <van-popup v-model = "showTimeComponent" position = "bottom">
+      <van-datetime-picker v-model = "currentTime" type = "datetime" :min-date = "startDate"   @cancel = "show = false"
+        @confirm = "handleConfirm()"/>
+    </van-popup>
+    <!-- 收支类型选择组件 -->
+    <van-popup v-model = "showTypeComponent" position = "bottom">
+      <van-radio-group v-model = "itemId">
+        <van-cell-group>
+          <van-cell :title = "consumTypeItem.label" clickable @click = "handleRadio(consumTypeItem.label)" v-bind:key= "index" v-for = "(consumTypeItem,index) in consumType">
+            <van-radio slot="right-icon" :name = "consumTypeItem.value" />
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+    </van-popup>
   </div>
 </template>
 <script>
@@ -38,15 +35,28 @@ export default {
       startDate: new Date(),
       updatedTime: null,
       itemId: null,
+      itemName: null,
       costMoney: null,
       note: null,
-      consumType: []
+      consumType: [],
+      showTimeComponent: false,
+      showTypeComponent: false,
+      currentTime: null
     }
   },
   created: function () {
     this.queryDictionaryInfo()
   },
   methods: {
+    showTime () {
+      this.showTimeComponent = true
+    },
+    showType () {
+      this.showTypeComponent = true
+    },
+    onClickLeft () {
+      this.$router.push({name: 'Home'})
+    },
     queryDictionaryInfo () {
       axios.get('/dictionary/queryDictionaryByToken', {
         headers: {
@@ -92,14 +102,14 @@ export default {
           console.log(error)
         })
     },
-    openPicker () {
-      this.$refs.picker.open()
-    },
-    handleConfirm (data) {
+    handleConfirm () {
       // 获取的时间为时间戳
-      this.updatedTime = this.dateFormat('YYYY-mm-dd HH:MM:SS', data)
-      // 时间格式转换
-      console.log(this.updatedTime)
+      this.updatedTime = this.dateFormat('YYYY-mm-dd HH:MM:SS', this.currentTime)
+      this.showTimeComponent = false
+    },
+    handleRadio (label) {
+      this.showTypeComponent = false
+      this.itemName = label
     },
     dateFormat (fmt, date) {
       let ret

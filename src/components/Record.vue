@@ -1,54 +1,50 @@
 <template>
   <div class="page-navbar">
-    <mt-navbar class="page-part" v-model = "selected">
-      <mt-tab-item v-for="(tag,index) in tagList" v-bind:key = "index"
-      :id = "tag">
-        {{tag.menuName}}
-      </mt-tab-item>
-    </mt-navbar>
-    <span v-if="selected.menuId == 8">
+    <van-tabs class = "page-part" v-model = "currentTag" @click = "change">
+      <van-tab v-for = "(tag,index) in tagList" v-bind:key = "index"
+      :id = "tag" :title = 'tag.menuName'>
+      </van-tab>
+    </van-tabs>
+    <span v-if = "currentTag == 0">
       <div class = "logo_div">
         <img class = "logo" src='../assets/editor.png' alt = "写一笔" v-on:click = "addRecord"/>
       </div>
-      <light-timeline :items = 'items'/>
+      <my-time-line :items = 'items'/>
     </span>
-    <span v-if="selected.menuId == 9">
-      <ve-pie :data = "chartData"></ve-pie>
+    <span v-if = "currentTag == 1">
+      <ve-pie :data = "chartData" :legend-visible = "false"></ve-pie>
     </span>
   </div>
 </template>
 <script>
 import axios from 'axios'
 import VePie from 'v-charts/lib/pie'
+import MyTimeLine from '../components/MyTimeLine'
 export default {
   // 名称
   name: 'Record',
   components: {
-    VePie
+    VePie,
+    MyTimeLine
   },
   data () {
     return {
-      menuId: this.$store.state.currentMenuId,
+      menuId: this.$store.state.currentMenu,
       tagList: this.$store.state.tagList,
-      selected: this.$store.state.tagList[0],
-      items: [],
+      currentTag: this.$store.state.tagList[0].menuId,
+      items: this.$store.state.items,
       chartData: {
         columns: ['item', 'money'],
         rows: []
       }
     }
   },
-  watch: {
-    selected: function (val) {
+  methods: {
+    change (index) {
+      let val = this.tagList[index]
       // 查询目标数据
       this.queryData(val.menuId - 7)
-    }
-  },
-  created: function () {
-    // 查询明细数据
-    this.queryData(1)
-  },
-  methods: {
+    },
     // 查询财务数据
     queryData (queryType) {
       axios.get('/finance/getDetailDate/' + queryType, {
@@ -60,7 +56,7 @@ export default {
         if (response.data.code == 200) {
           // 将token值赋值给全局变量
           if (queryType === 1) {
-            this.items = response.data.body
+            this.$store.commit('changeItems', response.data.body)
             console.log(JSON.stringify(this.items))
           } else {
             this.chartData.rows = response.data.body

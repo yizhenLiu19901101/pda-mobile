@@ -10,7 +10,8 @@ const store = new Vuex.Store({
     token: localStorage.getItem('token'),
     currentMenu: null,
     menuList: localStorage.getItem('menuList') == null ? null : JSON.parse(localStorage.getItem('menuList').split(',')),
-    tagList: localStorage.getItem('tagList') == null ? null : JSON.parse(localStorage.getItem('tagList').split(','))
+    tagList: localStorage.getItem('tagList') == null ? null : JSON.parse(localStorage.getItem('tagList').split(',')),
+    items: localStorage.getItem('items') == null ? null : JSON.parse(localStorage.getItem('items').split(','))
   },
   mutations: {
     // 显式的更改state里的数据
@@ -29,6 +30,10 @@ const store = new Vuex.Store({
     changeCurrentMenu (state, c) {
       state.currentMenu = c
       localStorage.setItem('currentMenu', JSON.stringify(c))
+    },
+    changeItems (state, d) {
+      state.items = d
+      localStorage.setItem('items', JSON.stringify(d))
     }
   }
 })
