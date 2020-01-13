@@ -9,6 +9,7 @@ const store = new Vuex.Store({
     // 存放组件之间共享的数据
     token: localStorage.getItem('token'),
     currentMenu: null,
+    currentItem: localStorage.getItem('currentItem') == null ? null : JSON.parse(localStorage.getItem('currentItem')),
     menuList: localStorage.getItem('menuList') == null ? null : JSON.parse(localStorage.getItem('menuList').split(',')),
     tagList: localStorage.getItem('tagList') == null ? null : JSON.parse(localStorage.getItem('tagList').split(',')),
     items: localStorage.getItem('items') == null ? null : JSON.parse(localStorage.getItem('items').split(','))
@@ -34,6 +35,10 @@ const store = new Vuex.Store({
     changeItems (state, d) {
       state.items = d
       localStorage.setItem('items', JSON.stringify(d))
+    },
+    changeCurrentItem (state, f) {
+      state.currentItem = f
+      localStorage.setItem('currentItem', JSON.stringify(f))
     }
   }
 })

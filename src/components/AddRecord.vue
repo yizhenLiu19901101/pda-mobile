@@ -6,12 +6,12 @@
     <van-field label = "收支类型" placeholder = "请选择收支类型" right-icon="filter-o" @click-right-icon = "showType" v-model = "itemName"/>
     <van-field label = "金额" placeholder = "请输入金额" type = "number" v-model = "costMoney" />
     <van-field label = "备注" placeholder = "请输入备注信息" type = "text" v-model = "note" />
-    <van-button class = "submitButton" round type="info" @click = "addRecord (updatedTime, costMoney, note, itemId)">
+    <van-button class = "submitButton" round type="info" @click = "addRecord (id,updatedTime, costMoney, note, itemId)">
       提交
     </van-button>
     <!-- 时间弹出组件 -->
     <van-popup v-model = "showTimeComponent" position = "bottom">
-      <van-datetime-picker v-model = "currentTime" type = "datetime" :min-date = "startDate"   @cancel = "show = false"
+      <van-datetime-picker v-model = "currentTime" type = "datetime" @cancel = "handleCancel"
         @confirm = "handleConfirm()"/>
     </van-popup>
     <!-- 收支类型选择组件 -->
@@ -19,7 +19,7 @@
       <van-radio-group v-model = "itemId">
         <van-cell-group>
           <van-cell :title = "consumTypeItem.label" clickable @click = "handleRadio(consumTypeItem.label)" v-bind:key= "index" v-for = "(consumTypeItem,index) in consumType">
-            <van-radio slot="right-icon" :name = "consumTypeItem.value" />
+            <van-radio slot = "right-icon" :name = "consumTypeItem.value" />
           </van-cell>
         </van-cell-group>
       </van-radio-group>
@@ -32,20 +32,18 @@ export default {
   name: 'AddRecord',
   data () {
     return {
-      startDate: new Date(),
-      updatedTime: null,
-      itemId: null,
-      itemName: null,
-      costMoney: null,
-      note: null,
+      updatedTime: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.tag,
+      itemId: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.itemId,
+      id: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.id,
+      reversion: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.reversion,
+      itemName: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.itemName,
+      costMoney: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.content,
+      note: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.note,
       consumType: [],
       showTimeComponent: false,
       showTypeComponent: false,
-      currentTime: null
+      currentTime: new Date()
     }
-  },
-  created: function () {
-    this.queryDictionaryInfo()
   },
   methods: {
     showTime () {
@@ -55,56 +53,65 @@ export default {
       this.showTypeComponent = true
     },
     onClickLeft () {
+      this.$store.commit('changeCurrentItem', null)
       this.$router.push({name: 'Home'})
     },
-    queryDictionaryInfo () {
-      axios.get('/dictionary/queryDictionaryByToken', {
-        headers: {
-          'token': this.$store.state.token
-        }
-      }).then(function (response) {
-        // eslint-disable-next-line
-        if (response.data.code == 200) {
-          this.consumType = response.data.body
-          console.log(JSON.stringify(this.consumType))
-        } else {
-          this.$message.error(response.data.msg)
-        }
-      }.bind(this))
-        .catch(function (error) {
-          console.log(error)
-        })
-    },
     // 添加财务记录
-    addRecord (updatedTime, costMoney, note, itemId) {
-      console.log(updatedTime + ' ' + costMoney + ' ' + note + ' ' + itemId)
+    addRecord (id, updatedTime, costMoney, note, itemId) {
+      console.log(updatedTime + ' ' + costMoney + ' ' + note + ' ' + id + ' ' + itemId)
       let financeDetailVo = {
         costMoney: costMoney,
         updatedTime: updatedTime,
         note: note,
-        itemId: itemId
+        itemId: itemId,
+        id: id
       }
-      axios.request({
-        url: `/finance/insertFinanceDetail`,
-        data: financeDetailVo,
-        headers: {
-          'token': this.$store.state.token
-        },
-        method: 'put'
-      }).then(function (response) {
-        // eslint-disable-next-line
-        if (response.data.code == 200) {
-          // 跳转到首页
-          this.$router.push({name: 'Home'})
-        }
-      }.bind(this))
-        .catch(function (error) {
-          console.log(error)
-        })
+      if (id != null) {
+        // 修改财务数据
+        axios.request({
+          url: `/finance/updateFinanceDetail`,
+          data: financeDetailVo,
+          headers: {
+            'token': this.$store.state.token
+          },
+          method: 'put'
+        }).then(function (response) {
+          // eslint-disable-next-line
+          if (response.data.code == 200) {
+            // 跳转到首页
+            this.$router.push({name: 'Home'})
+          }
+        }.bind(this))
+          .catch(function (error) {
+            console.log(error)
+          })
+      } else {
+        // 插入财务数据
+        axios.request({
+          url: `/finance/insertFinanceDetail`,
+          data: financeDetailVo,
+          headers: {
+            'token': this.$store.state.token
+          },
+          method: 'put'
+        }).then(function (response) {
+          // eslint-disable-next-line
+          if (response.data.code == 200) {
+            // 跳转到首页
+            this.$router.push({name: 'Home'})
+          }
+        }.bind(this))
+          .catch(function (error) {
+            console.log(error)
+          })
+      }
     },
     handleConfirm () {
       // 获取的时间为时间戳
       this.updatedTime = this.dateFormat('YYYY-mm-dd HH:MM:SS', this.currentTime)
+      this.showTimeComponent = false
+    },
+    handleCancel () {
       this.showTimeComponent = false
     },
     handleRadio (label) {
