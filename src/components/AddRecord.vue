@@ -45,6 +45,9 @@ export default {
       currentTime: new Date()
     }
   },
+  created: function () {
+    this.queryDictionaryInfo()
+  },
   methods: {
     showTime () {
       this.showTimeComponent = true
@@ -53,8 +56,27 @@ export default {
       this.showTypeComponent = true
     },
     onClickLeft () {
-      this.$store.commit('changeCurrentItem', null)
       this.$router.push({name: 'Home'})
+      this.$router.push({name: 'Home'})
+    },
+    // 查询字典信息
+    queryDictionaryInfo () {
+      axios.get('/dictionary/queryDictionaryByToken', {
+        headers: {
+          'token': this.$store.state.token
+        }
+      }).then(function (response) {
+        // eslint-disable-next-line
+        if (response.data.code == 200) {
+          this.consumType = response.data.body
+          console.log(JSON.stringify(this.consumType))
+        } else {
+          this.$message.error(response.data.msg)
+        }
+      }.bind(this))
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     // 添加财务记录
     addRecord (id, updatedTime, costMoney, note, itemId) {
