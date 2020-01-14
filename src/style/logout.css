@@ -18,9 +18,8 @@
   white-space: nowrap;
 }
 
-.mint-button--normal {
-  display: inline-block;
-  width: 90%;
-  margin-left:5%;
-  margin-bottom:5%;
+.van-button--block {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
 }

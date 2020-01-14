@@ -20,6 +20,7 @@
 import axios from 'axios'
 import VePie from 'v-charts/lib/pie'
 import MyTimeLine from '../components/MyTimeLine'
+
 export default {
   // 名称
   name: 'Record',
