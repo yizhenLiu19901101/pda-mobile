@@ -5,4 +5,14 @@ body {
 
 .tabBar {
   cursor: pointer;
+  width:100%;
+  height:10%
+}
+
+.van-tabbar-item__icon img {
+  display: block;
+}
+
+.van-tabbar-item--active {
+  color: #1989fa;
 }

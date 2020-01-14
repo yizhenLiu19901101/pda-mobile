@@ -7,7 +7,7 @@
     </van-tabs>
     <span v-if = "currentTag == 0">
       <div class = "logo_div">
-        <img class = "logo" src='../assets/editor.png' alt = "写一笔" v-on:click = "addRecord"/>
+        <van-icon name = "edit" style = "margin-top: 1rem;margin-left: 0.1rem;" alt = "写一笔" v-on:click = "addRecord" size = "2rem" color = "#606c76"/>
       </div>
       <my-time-line :items = 'items'/>
     </span>

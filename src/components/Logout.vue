@@ -2,7 +2,7 @@
   <div style = "width:100%;height:100%">
   <van-nav-bar left-arrow @click-left = "onClickLeft">
   </van-nav-bar>
-  <van-button round type ="info" v-on:click = "logout">
+  <van-button round type ="info" v-on:click = "logout" block>
     退出
   </van-button>
   </div>

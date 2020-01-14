@@ -17,8 +17,7 @@
     <div style="margin-top:40%;">
       <van-cell-group>
         <van-cell isLink v-for="(tag,index) in tagList" v-bind:key = "index"
-        :to = "tag.menuPath" :title = "tag.menuName">
-          <img slot = "icon" :src = "tag.menuImage" width = "24" height = "24">
+        :to = "tag.menuPath" :title = "tag.menuName" :icon = "tag.menuImage">
         </van-cell>
       </van-cell-group>
     </div>

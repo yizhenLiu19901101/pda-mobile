@@ -2,7 +2,6 @@
   <div>
     <van-nav-bar left-arrow @click-left = "onClickLeft">
     </van-nav-bar>
-    <van-field label = "消费时间" placeholder = "请选择消费时间" v-model = "updatedTime"/>
     <van-field label = "收支类型" placeholder = "请选择收支类型" v-model = "itemName"/>
     <van-field label = "金额" placeholder = "请输入金额" type = "number" v-model = "costMoney" />
     <van-field label = "备注" placeholder = "请输入备注信息" type = "text" v-model = "note" />

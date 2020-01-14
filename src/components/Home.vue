@@ -1,8 +1,8 @@
 <template>
 <div>
-    <router-view></router-view>
+    <router-view style = "width: 100%;height: 90%"></router-view>
     <van-tabbar v-model = "active" @change = "change" class = "tabBar">
-      <van-tabbar-item  :name = "menu.menuId" v-bind:key = "index" v-for = "(menu, index) in menuList">
+      <van-tabbar-item  :icon = "menu.menuImage" :name = "menu.menuId" v-bind:key = "index" v-for = "(menu, index) in menuList">
         {{ menu.menuName }}
       </van-tabbar-item>
     </van-tabbar>
