@@ -65,6 +65,9 @@ export default {
             .catch(function (error) {
               console.log(error)
             })
+        } else {
+          // 消息提示
+          this.$toast(response.data.msg)
         }
       }.bind(this))
         .catch(function (error) {

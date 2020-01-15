@@ -25,6 +25,9 @@ export default {
         // eslint-disable-next-line
         if (response.data.code == 200) {
           this.$router.push({name: 'Login'})
+        } else {
+          // 消息提示
+          this.$toast(response.data.msg)
         }
       }.bind(this))
         .catch(function (error) {
