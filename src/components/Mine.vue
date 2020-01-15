@@ -1,11 +1,11 @@
 <template>
   <div>
     <div style = "margin-left:30%;margin-top:20%">
-      <img class = "logo_icon" :src = "currentUser.imageUrl" alt = "头像"/>
-      <span style="margin-left:5%">
+      <van-image round width = "5rem" height = "5rem" :src = "currentUser.imageUrl" v-on:click = "routeToUserCenter"/>
+      <span style = "margin-left:5%">
         {{ currentUser.userName }}
       </span>
-      <span style="margin-left:1%">
+      <span style = "margin-left:1%">
         <img slot = "icon" class = "level_icon" src = "../assets/gold.png" v-if = "currentUser.userLevel == 3"/>
         <img slot = "icon" class = "level_icon" src = "../assets/silver.png" v-if = "currentUser.userLevel == 2"/>
         <img slot = "icon" class = "level_icon" src = "../assets/bronze.png" v-if = "currentUser.userLevel == 1"/>
@@ -51,6 +51,7 @@ export default {
       }).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {
+          this.$store.commit('changeCurrentUser', response.data.body)
           this.currentUser = response.data.body
         } else {
           this.$message.error(response.data.msg)
@@ -59,6 +60,10 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
+    },
+    // 跳转到用户中心
+    routeToUserCenter () {
+      this.$router.push({name: 'UserCenter'})
     }
   }
 }

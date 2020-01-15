@@ -8,6 +8,8 @@ import Logout from '@/components/Logout'
 import AboutUs from '@/components/AboutUs'
 import AddRecord from '@/components/AddRecord'
 import RecordDetail from '@/components/RecordDetail'
+import UserCenter from '@/components/UserCenter'
+
 Vue.use(Router)
 
 export default new Router({
@@ -27,6 +29,11 @@ export default new Router({
       path: '/aboutUs',
       name: 'AboutUs',
       component: AboutUs
+    },
+    {
+      path: '/userCenter',
+      name: 'UserCenter',
+      component: UserCenter
     },
     {
       path: '/addRecord',
