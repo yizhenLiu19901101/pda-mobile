@@ -51,6 +51,7 @@ export default {
       }).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {
+          console.log('currentUser = ' + JSON.stringify(response.data.body))
           this.$store.commit('changeCurrentUser', response.data.body)
           this.currentUser = response.data.body
         } else {

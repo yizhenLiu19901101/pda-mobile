@@ -12,6 +12,7 @@ import VCharts from 'v-charts'
 import vant from 'vant'
 import 'vant/lib/index.css'
 import '@vant/touch-emulator'
+import 'es6-promise/auto'
 // 引入全局变量文件,挂载到Vue实例上面
 Vue.use(vant)
 Vue.use(VCharts)

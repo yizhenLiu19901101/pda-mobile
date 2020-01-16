@@ -8,7 +8,7 @@
         <van-field  label = "头像"/>
       </span>
       <span style = "float: right;margin-right: 1rem;margin-top: 1rem;">
-      <van-uploader :after-read = "uploadImage">
+      <van-uploader :after-read = "afterRead" :before-read = "beforeRead" >
         <van-image round width = "2rem" height = "2rem" :src = "imageUrl"/>
       </van-uploader>
       </span>
@@ -27,7 +27,9 @@ export default {
     return {
       userName: this.$store.state.currentUser == null ? null : this.$store.state.currentUser.userName,
       imageUrl: this.$store.state.currentUser == null ? null : this.$store.state.currentUser.imageUrl,
-      userDesc: this.$store.state.currentUser == null ? null : this.$store.state.currentUser.userDesc
+      userDesc: this.$store.state.currentUser == null ? null : this.$store.state.currentUser.userDesc,
+      reversion: this.$store.state.currentUser == null ? null : this.$store.state.currentUser.reversion,
+      id: this.$store.state.currentUser == null ? null : this.$store.state.currentUser.id
     }
   },
   methods: {
@@ -36,30 +38,70 @@ export default {
     },
     // 修改用户信息
     updateUserInfo (userName, imageUrl, userDesc) {
-      console.log(userName + '' + '' + userDesc + '' + imageUrl)
-    },
-    uploadImage (file) {
-      axios.put('/file/uploadFile', {
+      let data = {
+        id: this.id,
+        userName: userName,
+        imageUrl: imageUrl,
+        userDesc: userDesc,
+        reversion: this.reversion
+      }
+      let config = {
         headers: {
           'token': this.$store.state.token
-        },
-        data: file
-      }).then(function (response) {
+        }
+      }
+      // 添加请求头
+      axios.put('/user/updateUserInfo', data, config).then(function (response) {
+        // eslint-disable-next-line
+        if (response.data.code == 200) {
+          this.$router.push({name: 'Mine'})
+        } else {
+          this.$toast(response.data.msg)
+          return 'error'
+        }
+      }.bind(this))
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    // 上传之前校验
+    beforeRead (file) {
+      if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+        this.$toast('只允许上传jpg/png格式的图片！')
+        return false
+      }
+      return true
+    },
+    // 文件读取完成后的回调函数
+    async afterRead (file) {
+      // 创建form对象
+      var formdata1 = new FormData()
+      // 通过append向form对象添加数据,可以通过append继续添加数据
+      formdata1.append('file', file.file)
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'token': this.$store.state.token
+        }
+      }
+      // 添加请求头
+      axios.post('/file/uploadImage', formdata1, config).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {
           this.imageUrl = response.data.body
           console.log(this.imageUrl)
         } else {
           this.$toast(response.data.msg)
+          return 'error'
         }
       }.bind(this))
         .catch(function (error) {
           console.log(error)
         })
-      console.log('上传文件')
     }
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
