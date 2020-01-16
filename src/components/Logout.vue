@@ -28,6 +28,7 @@ export default {
         } else {
           // 消息提示
           this.$toast(response.data.msg)
+          this.$router.push({name: 'Login'})
         }
       }.bind(this))
         .catch(function (error) {
