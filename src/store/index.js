@@ -8,7 +8,7 @@ const store = new Vuex.Store({
   state: {
     // 存放组件之间共享的数据
     token: localStorage.getItem('token'),
-    currentMenu: null,
+    currentMenu: localStorage.getItem('currentMenu') == null ? null : JSON.parse(localStorage.getItem('currentMenu')),
     currentUser: localStorage.getItem('currentUser') == null ? null : JSON.parse(localStorage.getItem('currentUser')),
     currentItem: localStorage.getItem('currentItem') == null ? null : JSON.parse(localStorage.getItem('currentItem')),
     menuList: localStorage.getItem('menuList') == null ? null : JSON.parse(localStorage.getItem('menuList').split(',')),

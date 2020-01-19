@@ -14,9 +14,11 @@
       </span>
     </van-cell-group>
     <van-field label = "用户简介" v-model = "userDesc" input-align = "right"/>
+    <div style = "margin-top: 5%">
       <van-button class = "submitButton" round type="info" @click = "updateUserInfo (userName,imageUrl, userDesc)">
-      提交
-    </van-button>
+        提交
+      </van-button>
+    </div>
   </div>
 </template>
 <script>
@@ -25,6 +27,7 @@ export default {
   name: 'UserCenter',
   data () {
     return {
+      show: false,
       userName: this.$store.state.currentUser == null ? null : this.$store.state.currentUser.userName,
       imageUrl: this.$store.state.currentUser == null ? null : this.$store.state.currentUser.imageUrl,
       userDesc: this.$store.state.currentUser == null ? null : this.$store.state.currentUser.userDesc,
@@ -57,7 +60,6 @@ export default {
           this.$router.push({name: 'Mine'})
         } else {
           this.$toast(response.data.msg)
-          return 'error'
         }
       }.bind(this))
         .catch(function (error) {
@@ -86,13 +88,15 @@ export default {
       }
       // 添加请求头
       axios.post('/file/uploadImage', formdata1, config).then(function (response) {
+        this.show = true
         // eslint-disable-next-line
         if (response.data.code == 200) {
+          this.show = false
           this.imageUrl = response.data.body
           console.log(this.imageUrl)
         } else {
+          this.show = false
           this.$toast(response.data.msg)
-          return 'error'
         }
       }.bind(this))
         .catch(function (error) {

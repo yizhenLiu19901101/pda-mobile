@@ -12,6 +12,12 @@
       <my-time-line :items = 'items'/>
     </span>
     <span v-if = "currentTag == 1">
+      <div style = "margin-top: 5%">
+        <van-tabs v-model = "consumeType" type = "card" style = "width: 40%;margin: 0 auto" @click = "changeConsumeType">
+          <van-tab title = "支出" name = "2" />
+          <van-tab title = "收入" name = "3" />
+        </van-tabs>
+       </div>
       <ve-pie :data = "chartData" :legend-visible = "false"></ve-pie>
     </span>
   </div>
@@ -30,6 +36,7 @@ export default {
   },
   data () {
     return {
+      consumeType: 1,
       menuId: this.$store.state.currentMenu,
       tagList: this.$store.state.tagList,
       currentTag: this.$store.state.tagList[0].menuId,
@@ -45,6 +52,11 @@ export default {
       let val = this.tagList[index]
       // 查询目标数据
       this.queryData(val.menuId - 7)
+    },
+    // 修改收支类型
+    changeConsumeType (index) {
+      // 查询目标数据
+      this.queryData(index)
     },
     // 查询财务数据
     queryData (queryType) {

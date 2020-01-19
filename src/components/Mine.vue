@@ -17,7 +17,7 @@
     <div style="margin-top:40%;">
       <van-cell-group>
         <van-cell isLink v-for="(tag,index) in tagList" v-bind:key = "index"
-        :to = "tag.menuPath" :title = "tag.menuName" :icon = "tag.menuImage">
+        :to = "tag.menuPath" :title = "tag.menuName" :icon = "tag.menuImage" @click = "go(tag)">
         </van-cell>
       </van-cell-group>
     </div>
@@ -43,6 +43,9 @@ export default {
     this.queryUserInfo()
   },
   methods: {
+    go (tag) {
+      this.$store.commit('changeCurrentMenu', tag)
+    },
     queryUserInfo () {
       axios.get('/user/findByToken', {
         headers: {

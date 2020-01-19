@@ -9,6 +9,7 @@ import AboutUs from '@/components/AboutUs'
 import AddRecord from '@/components/AddRecord'
 import RecordDetail from '@/components/RecordDetail'
 import UserCenter from '@/components/UserCenter'
+import PasswordModify from '@/components/PasswordModify'
 
 Vue.use(Router)
 
@@ -19,6 +20,11 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/passwordModify',
+      name: 'PasswordModify',
+      component: PasswordModify
     },
     {
       path: '/logout',
