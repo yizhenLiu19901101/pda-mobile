@@ -3,7 +3,8 @@
     <van-nav-bar left-arrow @click-left = "onClickLeft">
     </van-nav-bar>
     <van-field label = "消费时间" placeholder = "请选择消费时间" v-model = "updatedTime" right-icon="calender-o" @click-right-icon = "showTime"/>
-    <van-field label = "收支类型" placeholder = "请选择收支类型" right-icon="filter-o" @click-right-icon = "showType" v-model = "itemName"/>
+    <van-field label = "消费类型" placeholder = "请选择消费类型" right-icon="filter-o" @click-right-icon = "showConsumeType" v-model = "itemName"/>
+    <van-field label = "收支类型" placeholder = "请选择收支类型" right-icon="filter-o" @click-right-icon = "showIncomeType" v-model = "costTypeName"/>
     <van-field label = "金额" placeholder = "请输入金额" type = "number" v-model = "costMoney" />
     <van-field label = "备注" placeholder = "请输入备注信息" type = "text" v-model = "note" />
     <van-button class = "submitButton" round type="info" @click = "addRecord (id,updatedTime, costMoney, note, itemId)">
@@ -14,12 +15,25 @@
       <van-datetime-picker v-model = "currentTime" type = "datetime" @cancel = "handleCancel"
         @confirm = "handleConfirm()"/>
     </van-popup>
-    <!-- 收支类型选择组件 -->
-    <van-popup v-model = "showTypeComponent" position = "bottom">
+    <!--消费类型选择组件 -->
+    <van-popup v-model = "showConsumeTypeComponent" position = "bottom">
       <van-radio-group v-model = "itemId">
         <van-cell-group>
-          <van-cell :title = "consumTypeItem.label" clickable @click = "handleRadio(consumTypeItem.label)" v-bind:key= "index" v-for = "(consumTypeItem,index) in consumType">
+          <van-cell :title = "consumTypeItem.label" clickable @click = "handleConsumeRadio(consumTypeItem.label)" v-bind:key= "index" v-for = "(consumTypeItem,index) in consumType">
             <van-radio slot = "right-icon" :name = "consumTypeItem.value" />
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+    </van-popup>
+    <!--收支类型选择组件 -->
+    <van-popup v-model = "showIncomeTypeComponent" position = "bottom">
+      <van-radio-group v-model = "itemId">
+        <van-cell-group>
+          <van-cell title = "收入" clickable @click = "handleIncomeRadio(1)">
+            <van-radio slot = "right-icon" name = "1" />
+          </van-cell>
+          <van-cell title = "支出" clickable @click = "handleIncomeRadio(2)">
+            <van-radio slot = "right-icon" name = "2" />
           </van-cell>
         </van-cell-group>
       </van-radio-group>
@@ -38,10 +52,13 @@ export default {
       reversion: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.reversion,
       itemName: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.itemName,
       costMoney: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.content,
+      costType: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.costType,
+      costTypeName: this.costType === 1 ? '收入' : '支出',
       note: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.note,
       consumType: [],
       showTimeComponent: false,
-      showTypeComponent: false,
+      showConsumeTypeComponent: false,
+      showIncomeTypeComponent: false,
       currentTime: new Date()
     }
   },
@@ -52,8 +69,11 @@ export default {
     showTime () {
       this.showTimeComponent = true
     },
-    showType () {
-      this.showTypeComponent = true
+    showConsumeType () {
+      this.showConsumeTypeComponent = true
+    },
+    showIncomeType () {
+      this.showIncomeTypeComponent = true
     },
     onClickLeft () {
       this.$router.push({name: 'Home'})
@@ -85,6 +105,7 @@ export default {
         costMoney: costMoney,
         updatedTime: updatedTime,
         note: note,
+        costType: this.costType,
         itemId: itemId,
         id: id
       }
@@ -136,9 +157,13 @@ export default {
     handleCancel () {
       this.showTimeComponent = false
     },
-    handleRadio (label) {
-      this.showTypeComponent = false
+    handleConsumeRadio (label) {
+      this.showConsumeTypeComponent = false
       this.itemName = label
+    },
+    handleIncomeRadio (label) {
+      this.showIncomeTypeComponent = false
+      this.costTypeName = label === 1 ? '收入' : '支出'
     },
     dateFormat (fmt, date) {
       let ret

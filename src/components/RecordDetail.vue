@@ -2,7 +2,9 @@
   <div>
     <van-nav-bar left-arrow @click-left = "onClickLeft">
     </van-nav-bar>
-    <van-field label = "收支类型" placeholder = "请选择收支类型" v-model = "itemName"/>
+    <van-field label = "消费类型" placeholder = "请选择消费类型" v-model = "itemName"/>
+     <van-field label = "收支类型" placeholder = "请选择消费类型" v-model = "costType">
+     </van-field>
     <van-field label = "金额" placeholder = "请输入金额" type = "number" v-model = "costMoney" />
     <van-field label = "备注" placeholder = "请输入备注信息" type = "text" v-model = "note" />
   </div>
@@ -15,7 +17,8 @@ export default {
       updatedTime: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.tag,
       itemName: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.itemName,
       costMoney: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.content,
-      note: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.note
+      note: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.note,
+      costType: this.$store.state.currentItem.costType === 1 ? '支出' : '收入'
     }
   },
   methods: {

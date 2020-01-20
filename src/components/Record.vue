@@ -13,25 +13,26 @@
     </span>
     <span v-if = "currentTag == 1">
       <div style = "margin-top: 5%">
-        <van-tabs v-model = "consumeType" type = "card" style = "width: 40%;margin: 0 auto" @click = "changeConsumeType">
-          <van-tab title = "支出" name = "2" />
-          <van-tab title = "收入" name = "3" />
+        <van-tabs v-model = "consumeType" type = "card" style = "width: 60%;margin: 0 auto" @click = "changeConsumeType">
+          <van-tab title = "总支出" name = "2" />
+          <van-tab title = "总收入" name = "3" />
+          <van-tab title = "净收入" name = "4" />
         </van-tabs>
        </div>
-      <ve-pie :data = "chartData" :legend-visible = "false"></ve-pie>
+      <ring :data = "chartData" :legend-visible = "false" :settings = "chartSettings" :graphic = "graphic" />
     </span>
   </div>
 </template>
 <script>
 import axios from 'axios'
-import VePie from 'v-charts/lib/pie'
+import Ring from 'v-charts/lib/ring'
 import MyTimeLine from '../components/MyTimeLine'
 
 export default {
   // 名称
   name: 'Record',
   components: {
-    VePie,
+    Ring,
     MyTimeLine
   },
   data () {
@@ -41,10 +42,36 @@ export default {
       tagList: this.$store.state.tagList,
       currentTag: this.$store.state.tagList[0].menuId,
       items: this.$store.state.items,
+      title: this.$store.state.items.sum == null ? null : this.$store.state.items.sum,
       chartData: {
         columns: ['item', 'money'],
         rows: []
-      }
+      },
+      chartSettings: {
+        offsetY: 200,
+        radius: [60, 80],
+        // 设置延长线的长度
+        labelLine: {
+          normal: {
+            // 设置延长线的长度
+            length: 30,
+            // 设置第二段延长线的长度
+            length2: 40
+          }
+        }
+      },
+      graphic: [{
+        type: 'text',
+        left: 'center',
+        top: '46%',
+        style: {
+          text: '121',
+          textAlign: 'center',
+          fill: '#999999',
+          fontSize: 21,
+          color: '#4d4f5c'
+        }
+      }]
     }
   },
   methods: {
@@ -72,7 +99,8 @@ export default {
             this.$store.commit('changeItems', response.data.body)
             console.log(JSON.stringify(this.items))
           } else {
-            this.chartData.rows = response.data.body
+            this.chartData.rows = response.data.body.detail
+            this.graphic[0].style.text = response.data.body.sum
             console.log(JSON.stringify(this.chartData.rows))
           }
         }
