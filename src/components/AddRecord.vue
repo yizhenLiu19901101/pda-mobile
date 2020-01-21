@@ -27,7 +27,7 @@
     </van-popup>
     <!--收支类型选择组件 -->
     <van-popup v-model = "showIncomeTypeComponent" position = "bottom">
-      <van-radio-group v-model = "itemId">
+      <van-radio-group v-model = "costType">
         <van-cell-group>
           <van-cell title = "收入" clickable @click = "handleIncomeRadio(1)">
             <van-radio slot = "right-icon" name = "1" />
@@ -52,8 +52,8 @@ export default {
       reversion: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.reversion,
       itemName: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.itemName,
       costMoney: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.content,
-      costType: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.costType,
-      costTypeName: this.costType === 1 ? '收入' : '支出',
+      costType: this.$store.state.currentItem == null ? 1 : this.$store.state.currentItem.costType,
+      costTypeName: this.$store.state.currentItem.costType === 2 ? '收入' : '支出',
       note: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.note,
       consumType: [],
       showTimeComponent: false,
@@ -164,6 +164,7 @@ export default {
     handleIncomeRadio (label) {
       this.showIncomeTypeComponent = false
       this.costTypeName = label === 1 ? '收入' : '支出'
+      this.costType = label
     },
     dateFormat (fmt, date) {
       let ret
