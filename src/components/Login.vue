@@ -16,7 +16,7 @@
       </div>
       -->
       <br>
-      <button class="btn btn-lg btn-primary btn-block" type="submit" v-on:click.prevent="login(userName,userPassword)">登录</button>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" v-on:click.prevent = "login(userName,userPassword)">登录</button>
     </form>
   </div>
 </template>

@@ -131,26 +131,28 @@ export default {
     change (index) {
       let val = this.tagList[index]
       // 查询目标数据
-      this.queryData(val.menuId - 7, null, null, null)
+      this.queryData(val.menuId - 7, null, null, this.timeTypeValue)
     },
     // 切换收支类型
     changeConsumeType (index) {
       // 查询目标数据
-      this.queryData(index, null, null, null)
+      this.queryData(index, null, null, this.timeTypeValue)
     },
     // 查询财务数据
     queryData (queryType, startDate, endDate, timeTypeValue) {
       let financeDetailDto = {
-        timeTypeValue: timeTypeValue,
+        timeType: timeTypeValue,
         queryType: queryType,
         endDate: endDate,
         startDate: startDate
       }
-      axios.post('/finance/getDetailDate', {
+      axios.request({
+        url: `/finance/getDetailDate`,
         data: financeDetailDto,
         headers: {
           'token': this.$store.state.token
-        }
+        },
+        method: 'post'
       }).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {

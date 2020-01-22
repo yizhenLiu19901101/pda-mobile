@@ -29,11 +29,11 @@
     <van-popup v-model = "showIncomeTypeComponent" position = "bottom">
       <van-radio-group v-model = "costType">
         <van-cell-group>
-          <van-cell title = "收入" clickable @click = "handleIncomeRadio(1)">
-            <van-radio slot = "right-icon" name = "1" />
-          </van-cell>
-          <van-cell title = "支出" clickable @click = "handleIncomeRadio(2)">
+          <van-cell title = "收入" clickable @click = "handleIncomeRadio(2)">
             <van-radio slot = "right-icon" name = "2" />
+          </van-cell>
+          <van-cell title = "支出" clickable @click = "handleIncomeRadio(1)">
+            <van-radio slot = "right-icon" name = "1" />
           </van-cell>
         </van-cell-group>
       </van-radio-group>
@@ -53,7 +53,7 @@ export default {
       itemName: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.itemName,
       costMoney: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.content,
       costType: this.$store.state.currentItem == null ? 1 : this.$store.state.currentItem.costType,
-      costTypeName: this.$store.state.currentItem.costType === 2 ? '收入' : '支出',
+      costTypeName: this.$store.state.currentItem == null || this.$store.state.currentItem.costType === 1 ? '支出' : '收入',
       note: this.$store.state.currentItem == null ? null : this.$store.state.currentItem.note,
       consumType: [],
       showTimeComponent: false,
@@ -163,8 +163,10 @@ export default {
     },
     handleIncomeRadio (label) {
       this.showIncomeTypeComponent = false
-      this.costTypeName = label === 1 ? '收入' : '支出'
+      this.costTypeName = label === 2 ? '收入' : '支出'
       this.costType = label
+      console.log(label)
+      console.log(this.costType)
     },
     dateFormat (fmt, date) {
       let ret

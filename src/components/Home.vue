@@ -80,10 +80,16 @@ export default {
         })
     },
     queryData (menuPath) {
-      axios.get('/finance/getDetailDate/1', {
+      let financeDetailDto = {
+        queryType: 1
+      }
+      axios.request({
+        url: `/finance/getDetailDate`,
+        data: financeDetailDto,
         headers: {
           'token': this.$store.state.token
-        }
+        },
+        method: 'post'
       }).then(function (response) {
         // eslint-disable-next-line
         if (response.data.code == 200) {
