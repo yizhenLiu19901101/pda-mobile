@@ -4,8 +4,8 @@
       <span style = 'margin-left: -1rem'>{{item.tag}}</span>
     </template>
     <template slot = 'symbol' slot-scope ='{ item }'>
-      <img class = "circle" src = "../assets/sun.png" v-if = "item.type === 'circle'" />
-      <img class = "circle" src = "../assets/moon.png" v-if = "item.type === 'star'" />
+      <img class = "circle" src = "../assets/sun.png" v-if = "item.costType == 1" />
+      <img class = "circle" src = "../assets/moon.png" v-if = "item.costType == 2" />
     </template>
     <template slot = 'content' slot-scope = '{ item }'>
       <van-swipe-cell>
