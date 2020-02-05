@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style = "width: 100%;height: 100%">
     <router-view style = "width: 100%;height: 90%"></router-view>
     <van-tabbar v-model = "active" @change = "change" class = "tabBar">
       <van-tabbar-item  :icon = "menu.menuImage" :name = "menu.menuId" v-bind:key = "index" v-for = "(menu, index) in menuList">

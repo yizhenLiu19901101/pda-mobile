@@ -20,7 +20,7 @@
           <van-tab title = "净收入" name = "4" />
         </van-tabs>
        </div>
-      <ring :data = "chartData" :legend-visible = "false" :settings = "chartSettings" :graphic = "graphic" />
+      <ring :data = "chartData" :legend-visible = "false" :settings = "chartSettings" :graphic = "graphic" v-if = "this.graphic[0].style.text != 0"/>
     </span>
     <!--时间类型选择组件 -->
     <van-popup v-model = "showTimeTypeComponent" position = "bottom">
@@ -42,7 +42,7 @@
       </van-radio-group>
     </van-popup>
     <!-- 日历组件 -->
-    <van-calendar v-model = "showCalendarComponent" type="range" @confirm = "onConfirm" />
+    <van-calendar v-model = "showCalendarComponent" type="range" @confirm = "onConfirm"/>
   </div>
 </template>
 <script>
@@ -173,6 +173,7 @@ export default {
     },
     // 跳转到添加记录页面
     addRecord () {
+      this.$store.commit('changeCurrentItem', null)
       this.$router.push({name: 'AddRecord'})
     }
   }
