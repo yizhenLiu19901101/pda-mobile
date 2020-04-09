@@ -70,7 +70,7 @@ export default {
       timeTypeValue: 1,
       startDate: null,
       endDate: null,
-      title: this.$store.state.items.sum == null ? null : this.$store.state.items.sum,
+      title: this.$store.state.items == null ? null : this.$store.state.items.sum,
       chartData: {
         columns: ['item', 'money'],
         rows: []
