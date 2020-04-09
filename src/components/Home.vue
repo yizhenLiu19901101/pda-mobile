@@ -66,7 +66,7 @@ export default {
             let menu = this.menuList[index]
             if (menu.menuId === menuId) {
               console.log('menuId = ' + menu.menuId)
-              if (menu.menuId === 6) {
+              if (menu.menuId === 3) {
                 this.queryData(menu.menuPath)
               } else {
                 this.$router.push(menu.menuPath)
