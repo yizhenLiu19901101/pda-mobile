@@ -9,7 +9,12 @@
       <div class = "logo_div">
         <van-icon name = "edit" style = "margin-top: 1rem;margin-left: 0.1rem;" alt = "写一笔" v-on:click = "addRecord" size = "2rem" color = "#606c76"/>
       </div>
-      <my-time-line :items = 'items'/>
+      <span v-if = "0 == items.length">
+        <van-empty image="error" description="暂无数据" />
+      </span>
+      <span v-if = "0 != items.length">
+        <my-time-line :items = 'items'/>
+      </span>
     </span>
     <span v-if = "currentTag == 1">
       <van-divider><span v-on:click.prevent = "changeTimeType">{{ timeType }}</span></van-divider>
