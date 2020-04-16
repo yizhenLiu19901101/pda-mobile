@@ -1,8 +1,6 @@
 FROM node:lts-alpine
 # 如果你在国内，这行配置很有必要，不然打包会非常非常慢，原因嘛，都懂。
 RUN npm config set registry https://registry.npm.taobao.org
-# install simple http server for serving static content
-RUN npm install -g http-server
 
 # make the 'app' folder the current working directory
 WORKDIR /app
@@ -12,6 +10,8 @@ COPY package*.json ./
 
 # install project dependencies
 RUN npm install
+
+RUN npm update
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
