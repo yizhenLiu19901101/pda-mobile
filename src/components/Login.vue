@@ -32,7 +32,7 @@
 <script>
 import axios from 'axios'
 // 设置URL
-axios.defaults.baseURL = 'https://www.zhixuanda.top/api'
+axios.defaults.baseURL = 'https://www.zhixuanda.top/pda-service'
 export default {
   name: 'Login',
   data () {

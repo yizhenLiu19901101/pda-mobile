@@ -11,8 +11,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {
-        target: 'http://www.client.zhixuanda.top/api',//要访问的后端接口
+      '/pda-service': {
+        target: 'http://www.client.zhixuanda.top/pda-service',//要访问的后端接口
         changeOrigin: true
      }
     },
